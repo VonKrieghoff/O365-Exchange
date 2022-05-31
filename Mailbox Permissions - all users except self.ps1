@@ -2,6 +2,12 @@
 #$ScriptFromGithHub = Invoke-WebRequest https://raw.githubusercontent.com/VonKrieghoff/O365-Exchange/main/Mailbox%20Permissions%20-%20all%20users%20except%20self.ps1; Invoke-Expression $($ScriptFromGithHub.Content)
 
 
+### Description
+# 1. Script connects to your o365 tennant
+# 2. looks for mailboxes
+# 3. Outputs mailboxes where someone else have some permissions except user it self.
+
+
 Clear-Host
 
     Write-Output "
@@ -21,7 +27,7 @@ Clear-Host
       /      \__     __/
      /|         (\  |(       Mouse is Running 
     ^ \   /___\  /\_|        I'm Reading Mailbox Permissions
-       |__|   |__|           https://github.com/VonKrieghoff/
+       |__|   |__|           
     "
 
 
