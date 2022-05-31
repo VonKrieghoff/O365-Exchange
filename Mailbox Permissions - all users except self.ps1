@@ -7,7 +7,7 @@
 # 2. looks for mailboxes
 # 3. Outputs mailboxes where someone else have some permissions except user it self.
 
-
+Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
 Clear-Host
 
     Write-Output "
@@ -48,5 +48,5 @@ Get-EXOMailbox -ResultSize unlimited | select-object @{n='Identity';e={$_.UserPr
 # Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } - gets mailbox permissions except where user have permissions for its own mailbox, there is no point of that information, of course user will have access to its own mailbox.
 # format-table -AutoSize - formats output table with dynamic column width
 
-
+Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
 
