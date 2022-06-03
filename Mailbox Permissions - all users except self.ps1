@@ -64,9 +64,12 @@ Write-Host "$ExcelFile
 
 Get-Date -Format "dddd dd/MM/yyyy HH:mm"
 Write-Progress -Activity "For ~5000 users it takes about 10min"
-#Get-EXOMailbox -ResultSize 1000 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
-Write-Host "Running ........."-ForegroundColor Yellow
 
+Write-Host "Running ........."-ForegroundColor Yellow
+## To output in console:
+#Get-EXOMailbox -ResultSize 1000 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
+
+## To Output in Excel:
 Get-EXOMailbox -ResultSize unlimited | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | Export-Excel $ExcelFile -AutoSize -StartRow 2 -TableName Report
 # Get-Mailbox -ResultSize unlimited - gets all mailboxes in o365 tenant, you can also replace unlimited with 1000 for example so only 1000 mailboxes will be red.
 # select-object @{n='Identity';e={$_.UserPrincipalName}} - Maps UserPrincipalName as Identity, this is needed because if you have duplicated user Full names in directory the error will happen and results will not look clean.
