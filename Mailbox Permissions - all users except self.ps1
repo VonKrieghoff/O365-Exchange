@@ -46,7 +46,7 @@ Connect-ExchangeOnline -ShowBanner:$false
 Install-Module ImportExcel -Scope CurrentUser -ErrorAction SilentlyContinue #Will install import excel module, otherwise it will not be possible to export to excel.
 $date = (get-date -UFormat "%Y-%m-%d (%H-%M-%S)") #Gets date and time for excel file name.
 #$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition #Detects current folder frome where are you executing script, if localy execute
-$scriptPath = c:\temp
+$scriptPath = "%Desktop%\$ExcelFileName"
 $ExcelFileName = "O365-Get-MailboxPermission" #Excel name
 $ExcelFile = "$scriptPath\$ExcelFileName-$date.xlsx" #Genereates excel file location and name
 #EXPORT TO Excel
