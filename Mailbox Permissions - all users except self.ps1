@@ -50,7 +50,7 @@ $date = (get-date -UFormat "%Y-%m-%d (%H-%M-%S)") #Gets date and time for excel 
 
 
 ########### FOLDER
-$FolderName = "%UserProfile%\Desktop\"
+$FolderName = "%UserProfile%\Desktop\$ExcelFileName"
 if (Test-Path $FolderName) {
     Write-Host "Folder Exists"
     # Perform Delete file from folder operation
