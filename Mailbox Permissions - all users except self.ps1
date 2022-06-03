@@ -43,10 +43,11 @@ Connect-ExchangeOnline -ShowBanner:$false
 #ADDED
 #ADDED
 #ADDED
-Install-Module ImportExcel -ShowBanner:$false
-$date = (get-date -UFormat "%Y-%m-%d (%H-%M-%S)")
-$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
-$ExcelFails = "$scriptPath\Datoru-Atskaite-$date.xlsx"
+Install-Module ImportExcel -Scope CurrentUser -ErrorAction SilentlyContinue #Will install import excel module, otherwise it will not be possible to export to excel.
+$date = (get-date -UFormat "%Y-%m-%d (%H-%M-%S)") #Gets date and time for excel file name.
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition #Detects current folder frome where are you executing script
+$ExcelFileName = "O365-Get-MailboxPermission" #Excel name
+$ExcelFile = "$scriptPath\$ExcelFileName-$date.xlsx" #Genereates excel file location and name
 
 #ADDED
 #ADDED
@@ -54,20 +55,28 @@ $ExcelFails = "$scriptPath\Datoru-Atskaite-$date.xlsx"
 
 
 
+Write-Host "Output result file will be saved in: " -nonewline
+Write-Host "$ExcelFile 
+
+"-ForegroundColor Yellow
 
 Get-Date -Format "dddd dd/MM/yyyy HH:mm"
 Write-Progress -Activity "For ~5000 users it takes about 10min"
-Get-EXOMailbox -ResultSize 100 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-EXOMailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
-Get-EXOMailbox -ResultSize 100 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-EXOMailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | Export-Excel $ExcelFails -AutoSize -StartRow 2 -TableName ReportProcess
+#Get-EXOMailbox -ResultSize 1000 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
+Write-Host "Running ........."-ForegroundColor Yellow
 
-
-
-
-
+Get-EXOMailbox -ResultSize unlimitied | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | Export-Excel $ExcelFile -AutoSize -StartRow 2 -TableName Report
 # Get-Mailbox -ResultSize unlimited - gets all mailboxes in o365 tenant, you can also replace unlimited with 1000 for example so only 1000 mailboxes will be red.
 # select-object @{n='Identity';e={$_.UserPrincipalName}} - Maps UserPrincipalName as Identity, this is needed because if you have duplicated user Full names in directory the error will happen and results will not look clean.
 # Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } - gets mailbox permissions except where user have permissions for its own mailbox, there is no point of that information, of course user will have access to its own mailbox.
 # format-table -AutoSize - formats output table with dynamic column width
+
+Write-Host "DONE
+"-ForegroundColor Green
+
+Write-Host "In Output file IDENTITY column is target mailbox, where user from USER column have permissions to access it"  -ForegroundColor Yellow
+
+
 
 Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
 
