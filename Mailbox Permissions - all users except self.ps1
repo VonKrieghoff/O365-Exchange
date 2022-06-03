@@ -9,25 +9,21 @@
 
 Clear-Host
 
-    Write-Output "
-
-
-
-
-
-
-
-
-
+        Write-Host "
 
               __     __
              /  \~~~/  \
        ,----(     ..    )
       /      \__     __/
-     /|         (\  |(       Mouse is Running 
-    ^ \   /___\  /\_|        I'm Reading Mailbox Permissions
+     /|         (\  |(       
+    ^ \   /___\  /\_|        
        |__|   |__|           
-    "
+    
+       " -ForegroundColor blue
+    Write-Host "I'm Reading Mailbox Permissions
+    
+    
+    " -ForegroundColor Yellow
 
 
 #Module needed for o365 connection
