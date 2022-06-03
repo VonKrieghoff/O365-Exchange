@@ -11,6 +11,11 @@ Clear-Host
 
         Write-Host "
 
+
+
+
+
+
               __     __
              /  \~~~/  \
        ,----(     ..    )
@@ -30,8 +35,10 @@ Clear-Host
 Import-Module ExchangeOnlineManagement
 
 #Creating connection to o365, another windows will popup asked for login credentials to access your o365 tenant. Show banner hides built in info output at connection.
+Write-Progress -Activity "Waiting for you to log in o365"
 Connect-ExchangeOnline -ShowBanner:$false
 # You can also use "Connect-ExchangeOnline -UserPrincipalName myloginname@mydomain.com" to prefill form so only password and 2FA will be asked.
+
 
 Write-Progress -Activity "For ~5000 users it takes about 10min"
 Get-EXOMailbox -ResultSize unlimited | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-EXOMailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
