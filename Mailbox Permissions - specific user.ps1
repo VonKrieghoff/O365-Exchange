@@ -40,12 +40,15 @@ Looking for " -NoNewline
 write-host $UserInput -NoNewline -ForegroundColor Yellow
 write-host " permissions in every mailbox !"
 
+Write-Host "
+Running ........."-ForegroundColor Yellow
 Get-EXOMailbox -ResultSize unlimited | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission -User $UserInput | format-table -AutoSize
 # Get-Mailbox -ResultSize unlimited - gets all mailboxes in o365 tenant, you can also replace unlimited with 1000 for example so only 1000 mailboxes will be red.
 # select-object @{n='Identity';e={$_.UserPrincipalName}} - Maps UserPrincipalName as Identity, this is needed because if you have duplicated user Full names in directory the error will happen and results will not look clean.
 # Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } - gets mailbox permissions except where user have permissions for its own mailbox, there is no point of that information, of course user will have access to its own mailbox.
 # format-table -AutoSize - formats output table with dynamic column width
-
+Write-Host "DONE
+"-ForegroundColor Green
 
 #Disconnects Exchnage session:
 Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
