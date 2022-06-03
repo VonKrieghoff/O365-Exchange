@@ -60,14 +60,22 @@ if (Test-Path $FolderName) {
 else
 {
     #PowerShell Create directory if not exists
-    New-Item $FolderName -ItemType Directory
-    Write-Host "Folder Created successfully"
+    Write-Host "Folder $FolderName, was not found, Creating ......."  -ForegroundColor Yellow
+    New-Item $FolderName -ItemType Directory  | Out-Null
+    Write-Host "Folder Created successfully - " -NoNewline
+    Write-Host "$FolderName
+    
+    "  -ForegroundColor Yellow
+
 }
 ########### FOLDER
 
 #$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition #Detects current folder frome where are you executing script, if localy execute
-$scriptPath = "$FolderName\$ExcelFileName"
+$scriptPath = "$FolderName"
+
+
 $ExcelFile = "$scriptPath\$ExcelFileName-$date.xlsx" #Genereates excel file location and name
+
 #EXPORT TO Excel
 #EXPORT TO Excel
 #EXPORT TO Excel
