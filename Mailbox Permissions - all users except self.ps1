@@ -24,7 +24,7 @@ Clear-Host
     ^ \   /___\  /\_|        
        |__|   |__|           
     
-       " -ForegroundColor White
+       " -ForegroundColor Yellow
     Write-Host "I'm Reading Mailbox Permissions
     
     
