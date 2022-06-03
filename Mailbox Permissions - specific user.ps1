@@ -52,4 +52,4 @@ Write-Host "DONE
 
 #Disconnects Exchnage session:
 Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
-
+Remove-Variable * -ErrorAction SilentlyContinue; Remove-Module *; $error.Clear(); Clear-Host
