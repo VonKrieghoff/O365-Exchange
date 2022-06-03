@@ -7,7 +7,6 @@
 # 2. looks for mailboxes
 # 3. Outputs mailboxes where someone else have some permissions except user it self.
 
-Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
 Clear-Host
 
     Write-Output "
@@ -40,7 +39,6 @@ Connect-ExchangeOnline -ShowBanner:$false
 
 Write-Progress -Activity "For ~5000 users it takes about 10min"
 Get-EXOMailbox -ResultSize unlimited | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-EXOMailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
-#$Mailbox | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
 
 
 # Get-Mailbox -ResultSize unlimited - gets all mailboxes in o365 tenant, you can also replace unlimited with 1000 for example so only 1000 mailboxes will be red.
