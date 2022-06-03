@@ -40,18 +40,18 @@ Connect-ExchangeOnline -ShowBanner:$false
 # You can also use "Connect-ExchangeOnline -UserPrincipalName myloginname@mydomain.com" to prefill form so only password and 2FA will be asked.
 
 
-#ADDED
-#ADDED
-#ADDED
+#EXPORT TO Excel
+#EXPORT TO Excel
+#EXPORT TO Excel
 Install-Module ImportExcel -Scope CurrentUser -ErrorAction SilentlyContinue #Will install import excel module, otherwise it will not be possible to export to excel.
 $date = (get-date -UFormat "%Y-%m-%d (%H-%M-%S)") #Gets date and time for excel file name.
-$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition #Detects current folder frome where are you executing script
+#$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition #Detects current folder frome where are you executing script, if localy execute
+$scriptPath = c:\temp
 $ExcelFileName = "O365-Get-MailboxPermission" #Excel name
 $ExcelFile = "$scriptPath\$ExcelFileName-$date.xlsx" #Genereates excel file location and name
-
-#ADDED
-#ADDED
-#ADDED
+#EXPORT TO Excel
+#EXPORT TO Excel
+#EXPORT TO Excel
 
 
 
