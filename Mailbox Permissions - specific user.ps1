@@ -52,4 +52,6 @@ Write-Host "DONE
 
 #Disconnects Exchnage session:
 Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
+
+#Clean up powershell modules and powershell cache:
 Remove-Variable * -ErrorAction SilentlyContinue; Remove-Module *; $error.Clear(); Clear-Host
