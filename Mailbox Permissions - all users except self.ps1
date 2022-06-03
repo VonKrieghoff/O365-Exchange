@@ -49,10 +49,12 @@ Install-Module ImportExcel -Scope CurrentUser -ErrorAction SilentlyContinue #Wil
 $date = (get-date -UFormat "%Y-%m-%d (%H-%M-%S)") #Gets date and time for excel file name.
 
 
+
+$ExcelFileName = "O365-Get-MailboxPermission" #Excel and folder name
 ########### FOLDER
-$FolderName = "%UserProfile%\Desktop\$ExcelFileName"
+$FolderName = "c:\TEMP\$ExcelFileName"
 if (Test-Path $FolderName) {
-    Write-Host "Folder Exists"
+    Write-Host "Folder Exists $FolderName"
     # Perform Delete file from folder operation
 }
 else
@@ -63,8 +65,6 @@ else
 }
 ########### FOLDER
 
-
-$ExcelFileName = "O365-Get-MailboxPermission" #Excel name
 #$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition #Detects current folder frome where are you executing script, if localy execute
 $scriptPath = "$FolderName\$ExcelFileName"
 $ExcelFile = "$scriptPath\$ExcelFileName-$date.xlsx" #Genereates excel file location and name
