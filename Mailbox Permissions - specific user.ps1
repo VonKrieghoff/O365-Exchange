@@ -7,7 +7,6 @@
 # 2. looks for mailboxes
 # 3. Outputs mailboxes where SPECIFIC USER have some permissions except user it self.
 
-
 Clear-Host
 
     Write-Host "
