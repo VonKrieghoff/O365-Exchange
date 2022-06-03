@@ -111,13 +111,16 @@ $DURATION = $DateEND - $DateStart
 $DURATIONmin = $DURATION.Minutes
 $DURATIONSec = $DURATION.Seconds
 
-
-Write-Host "DONE in " -ForegroundColor Green -nonewline
+Write-Host "DONE 
+" -ForegroundColor Green
+Write-Host "Finished in " -ForegroundColor Green -nonewline
 Write-Host "$DURATIONmin" -ForegroundColor RED -nonewline
 Write-Host " minutes" -ForegroundColor Green -nonewline
 Write-Host " and " -ForegroundColor Green -nonewline
 Write-Host "$DURATIONSec" -ForegroundColor RED -nonewline
-Write-Host " seconds." -ForegroundColor Green -nonewline
+Write-Host " seconds.
+
+" -ForegroundColor Green
 
 Write-Host "In Output file IDENTITY column is target mailbox, where user from USER column have permissions to access it
 
