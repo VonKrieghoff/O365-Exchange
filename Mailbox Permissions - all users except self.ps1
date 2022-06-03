@@ -129,4 +129,6 @@ Write-Host "In Output file IDENTITY column is target mailbox, where user from US
 
 
 Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
+
+#Clean up powershell modules and powershell cache:
 Remove-Variable * -ErrorAction SilentlyContinue; Remove-Module *; $error.Clear(); Clear-Host
