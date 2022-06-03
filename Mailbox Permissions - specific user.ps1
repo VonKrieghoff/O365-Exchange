@@ -33,7 +33,7 @@ Import-Module ExchangeOnlineManagement
 Connect-ExchangeOnline -ShowBanner:$false
 # You can also use "Connect-ExchangeOnline -UserPrincipalName myloginname@mydomain.com" to prefill form so only password and 2FA will be asked.
 
-Write-Output Get-Date
+Get-Date -Format "dddd dd/MM/yyyy HH:mm"
 $UserInput = Read-Host -Prompt "Input user login name whos permissions u are looking for (example: username@domain.local)"
 write-host " 
 Looking for " -NoNewline
