@@ -129,4 +129,4 @@ Write-Host "In Output file IDENTITY column is target mailbox, where user from US
 
 
 Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
-
+Remove-Variable * -ErrorAction SilentlyContinue; Remove-Module *; $error.Clear(); Clear-Host
