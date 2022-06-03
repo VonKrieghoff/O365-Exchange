@@ -39,9 +39,29 @@ Write-Progress -Activity "Waiting for you to log in o365"
 Connect-ExchangeOnline -ShowBanner:$false
 # You can also use "Connect-ExchangeOnline -UserPrincipalName myloginname@mydomain.com" to prefill form so only password and 2FA will be asked.
 
+
+#ADDED
+#ADDED
+#ADDED
+Install-Module ImportExcel -ShowBanner:$false
+$date = (get-date -UFormat "%Y-%m-%d (%H-%M-%S)")
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+$ExcelFails = "$scriptPath\Datoru-Atskaite-$date.xlsx"
+
+#ADDED
+#ADDED
+#ADDED
+
+
+
+
 Get-Date -Format "dddd dd/MM/yyyy HH:mm"
 Write-Progress -Activity "For ~5000 users it takes about 10min"
-Get-EXOMailbox -ResultSize unlimited | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-EXOMailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
+Get-EXOMailbox -ResultSize 100 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-EXOMailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
+Get-EXOMailbox -ResultSize 100 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-EXOMailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | Export-Excel $ExcelFails -AutoSize -StartRow 2 -TableName ReportProcess
+
+
+
 
 
 # Get-Mailbox -ResultSize unlimited - gets all mailboxes in o365 tenant, you can also replace unlimited with 1000 for example so only 1000 mailboxes will be red.
