@@ -92,7 +92,7 @@ Write-Host "$ExcelFile
 
 Write-Progress -Activity "For ~5000 users it takes about 10min"
 
-$DateStart = Get-Date -Format "dddd dd/MM/yyyy HH:mm"
+$DateStart = Get-Date
 Write-Host "$DateStart " -nonewline
 Write-Host "Running ........."-ForegroundColor Yellow
 ## To output in console:
@@ -105,14 +105,19 @@ Get-EXOMailbox -ResultSize 100 | select-object @{n='Identity';e={$_.UserPrincipa
 # Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } - gets mailbox permissions except where user have permissions for its own mailbox, there is no point of that information, of course user will have access to its own mailbox.
 # format-table -AutoSize - formats output table with dynamic column width
 
-$DateEND = Get-Date -Format "dddd dd/MM/yyyy HH:mm"
+$DateEND = Get-Date
 Write-Host "$DateEND " -nonewline
 $DURATION = $DateEND - $DateStart
-$DURATIONmin = $DURATION.TotalMinutes
+$DURATIONmin = $DURATION.Minutes
+$DURATIONSec = $DURATION.Seconds
 
-Write-Host "DONE in " -ForegroundColor Green  -nonewline
-Write-Host "$DURATIONmin" -ForegroundColor RED  -nonewline
-Write-Host " minutes." -ForegroundColor Green
+
+Write-Host "DONE in " -ForegroundColor Green -nonewline
+Write-Host "$DURATIONmin" -ForegroundColor RED -nonewline
+Write-Host " minutes" -ForegroundColor Green -nonewline
+Write-Host " and " -ForegroundColor Green -nonewline
+Write-Host "$DURATIONSec" -ForegroundColor RED -nonewline
+Write-Host " seconds." -ForegroundColor Green -nonewline
 
 Write-Host "In Output file IDENTITY column is target mailbox, where user from USER column have permissions to access it
 
