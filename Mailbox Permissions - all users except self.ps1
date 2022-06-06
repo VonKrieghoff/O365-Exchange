@@ -7,6 +7,8 @@
 # 2. looks for mailboxes
 # 3. Outputs mailboxes where someone else have some permissions except user it self.
 
+
+#region Connect to o365 and login
 Clear-Host
 
         Write-Host "
@@ -32,7 +34,7 @@ Clear-Host
     
     " -ForegroundColor Yellow
 
-
+#region Connect to o365 and login
 #Module needed for o365 connection
 Import-Module ExchangeOnlineManagement
 
@@ -40,18 +42,14 @@ Import-Module ExchangeOnlineManagement
 Write-Progress -Activity "Waiting for you to log in o365"
 Connect-ExchangeOnline -ShowBanner:$false
 # You can also use "Connect-ExchangeOnline -UserPrincipalName myloginname@mydomain.com" to prefill form so only password and 2FA will be asked.
+#endregion Connect to o365 and login
 
-
-#EXPORT TO Excel
-#EXPORT TO Excel
-#EXPORT TO Excel
+#region Export To File
 Install-Module ImportExcel -Scope CurrentUser -ErrorAction SilentlyContinue #Will install import excel module, otherwise it will not be possible to export to excel.
 $date = (get-date -UFormat "%Y-%m-%d (%H-%M-%S)") #Gets date and time for excel file name.
-
-
-
 $ExcelFileName = "O365-Get-MailboxPermission" #Excel and folder name
-########### FOLDER
+
+#region Folder
 $FolderName = "c:\TEMP\$ExcelFileName"
 if (Test-Path $FolderName) {
     Write-Host "Folder Exists: " -NoNewline
@@ -71,19 +69,15 @@ else
     "  -ForegroundColor Yellow
 
 }
-########### FOLDER
+#endregion Folder
 
 #$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition #Detects current folder frome where are you executing script, if localy execute
 $scriptPath = "$FolderName"
-
 $ExcelFile = "$scriptPath\$ExcelFileName-$date.xlsx" #Genereates excel file location and name
 
-#EXPORT TO Excel
-#EXPORT TO Excel
-#EXPORT TO Excel
+#endregion Export To File
 
-
-
+#region Executing
 Write-Host "Output result file will be saved in: " -nonewline
 Write-Host "$ExcelFile 
 
@@ -99,7 +93,9 @@ Write-Host "Running ........."-ForegroundColor Yellow
 #Get-EXOMailbox -ResultSize 1000 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
 
 ## To Output in Excel:
-Get-EXOMailbox -ResultSize Unlimited | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | Export-Excel $ExcelFile -AutoSize -StartRow 2 -TableName Report
+Get-EXOMailbox -ResultSize 100 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | Select-Object -Property PSShowComputerName, Deny,InheritanceType,User,UserSid,@{n = 'AccessRights'; e = {$_.AccessRights -join ';'}},@{n = 'Target Mailbox'; e = {$_.Identity -join ';'}},IsInherited,IsValid,ObjectState | Export-Excel $ExcelFile -AutoSize -StartRow 2 -TableName Report
+# Select-Object in last section should be used because of AccessRights field is not returning normal values in excel.
+# @{n = 'AccessRights'; e = {$_.AccessRights -join ';'}} - Joins row values, otherwise System.Collections.ArrayLis is returned.
 # Get-Mailbox -ResultSize unlimited - gets all mailboxes in o365 tenant, you can also replace unlimited with 1000 for example so only 1000 mailboxes will be red.
 # select-object @{n='Identity';e={$_.UserPrincipalName}} - Maps UserPrincipalName as Identity, this is needed because if you have duplicated user Full names in directory the error will happen and results will not look clean.
 # Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } - gets mailbox permissions except where user have permissions for its own mailbox, there is no point of that information, of course user will have access to its own mailbox.
@@ -125,10 +121,12 @@ Write-Host " seconds.
 Write-Host "In Output file IDENTITY column is target mailbox, where user from USER column have permissions to access it
 
 "  -ForegroundColor Yellow
+#endregion Executing
 
-
-
+#region Closing Connections and Cleanup
 Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
 
 #Clean up powershell modules and powershell cache:
-Remove-Variable * -ErrorAction SilentlyContinue; Remove-Module *; $error.Clear(); Clear-Host
+Remove-Variable * -ErrorAction SilentlyContinue; Remove-Module *; $error.Clear(); #Clear-Host
+
+#endregion Closing Connections and Cleanup
