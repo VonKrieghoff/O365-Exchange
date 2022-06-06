@@ -120,8 +120,14 @@ Write-Host " seconds.
 
 Write-Host "In Output file IDENTITY column is target mailbox, where user from USER column have permissions to access it
 
+
+
 "  -ForegroundColor Yellow
 #endregion Executing
+
+#region Open Excel
+Invoke-Item $ExcelFile
+#endregion Open Excel
 
 #region Closing Connections and Cleanup
 Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
