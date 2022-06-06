@@ -93,7 +93,7 @@ Write-Host "Running ........."-ForegroundColor Yellow
 #Get-EXOMailbox -ResultSize 1000 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | format-table -AutoSize
 
 ## To Output in Excel:
-Get-EXOMailbox -ResultSize 100 | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | Select-Object -Property PSShowComputerName, Deny,InheritanceType,User,UserSid,@{n = 'AccessRights'; e = {$_.AccessRights -join ';'}},@{n = 'Target Mailbox'; e = {$_.Identity -join ';'}},IsInherited,IsValid,ObjectState | Export-Excel $ExcelFile -AutoSize -StartRow 2 -TableName Report
+Get-EXOMailbox -ResultSize unlimited | select-object @{n='Identity';e={$_.UserPrincipalName}} | Get-MailboxPermission | Where-Object { -not ($_.User -like "NT AUTHORITY\SELF") } | Select-Object -Property PSShowComputerName, Deny,InheritanceType,User,UserSid,@{n = 'AccessRights'; e = {$_.AccessRights -join ';'}},@{n = 'Target Mailbox'; e = {$_.Identity -join ';'}},IsInherited,IsValid,ObjectState | Export-Excel $ExcelFile -AutoSize -StartRow 2 -TableName Report
 # Select-Object in last section should be used because of AccessRights field is not returning normal values in excel.
 # @{n = 'AccessRights'; e = {$_.AccessRights -join ';'}} - Joins row values, otherwise System.Collections.ArrayLis is returned.
 # Get-Mailbox -ResultSize unlimited - gets all mailboxes in o365 tenant, you can also replace unlimited with 1000 for example so only 1000 mailboxes will be red.
