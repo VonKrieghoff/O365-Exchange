@@ -118,11 +118,12 @@ Write-Host " seconds.
 
 " -ForegroundColor Green
 
-Write-Host "In Output file IDENTITY column is target mailbox, where user from USER column have permissions to access it
+#Write-Host "In Output file IDENTITY column is target mailbox, where user from USER column have permissions to access it
+#
+#
+#
+#"  -ForegroundColor Yellow
 
-
-
-"  -ForegroundColor Yellow
 #endregion Executing
 
 #region Open Excel
